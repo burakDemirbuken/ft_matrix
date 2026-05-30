@@ -28,6 +28,8 @@ class Vector
 		void	sub(const Vector<T>& other);
 		void	scl(const T& scalar) noexcept;
 
+		Vector<T> linear_combination(const Vector<Vector<T>>& vectors, const Vector<T>& coefficients);
+
 		Vector<T> operator+(const T& value) noexcept;
 		Vector<T> operator-(const T& value) noexcept;
 		Vector<T> operator*(const T& value) noexcept;

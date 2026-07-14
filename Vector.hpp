@@ -28,7 +28,7 @@ class Vector
 		void	sub(const Vector<T>& other);
 		void	scl(const T& scalar) noexcept;
 
-		Vector<T> linear_combination(const Vector<Vector<T>>& vectors, const Vector<T>& coefficients);
+		T	dot(const Vector<T>& other) const;
 
 		Vector<T> operator+(const T& value) noexcept;
 		Vector<T> operator-(const T& value) noexcept;
@@ -41,6 +41,10 @@ class Vector
 
 		T& operator[](size_t index);
 		const T& operator[](size_t index) const;
+
+		T	norm_1() const;
+		T	norm() const;
+		T	norm_inf() const;
 
 };
 

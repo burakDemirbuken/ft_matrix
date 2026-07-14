@@ -70,29 +70,21 @@ void	Vector<T>::sub(const Vector<T>& other)
 }
 
 template<typename T>
+T	Vector<T>::dot(const Vector<T>& other) const
+{
+	if (size != other.size)
+		throw std::invalid_argument("Vectors must be of the same size for dot product.");
+	T result = static_cast<T>(0);
+	for (size_t i = 0; i < size; ++i)
+		result += data[i] * other.data[i];
+	return result;
+}
+
+template<typename T>
 void	Vector<T>::scl(const T& scalar) noexcept
 {
 	for (size_t i = 0; i < size; ++i)
 		data[i] *= scalar;
-}
-
-
-template<typename T>
-Vector<T> linear_combination(const std::vector<Vector<T>>& vectors, const std::vector<T>& coefficients)
-{
-	if (vectors.size() == 0 || coefficients.size() == 0)
-		throw std::invalid_argument("Vectors and coefficients cannot be empty.");
-	if (vectors.size() != coefficients.size())
-		throw std::invalid_argument("Number of vectors must match number of coefficients.");
-	size_t vec_size = vectors[0].getSize();
-	for (size_t i = 1; i < vectors.size(); ++i)
-		if (vectors[i].getSize() != vec_size)
-			throw std::invalid_argument("All vectors must be of the same size.");
-	Vector<T> result(vec_size);
-	for	(size_t i = 0; i < vectors.size(); ++i)
-		for (size_t j = 0; j < vec_size; ++j)
-			result[j] = std::fma(vectors[i][j], coefficients[i], result[j]);
-	return result;
 }
 
 template<typename T>
@@ -172,4 +164,35 @@ std::ostream& operator<<(std::ostream& os, const Vector<T>& vec)
 	for (size_t i = 0; i < vec.getSize(); ++i)
 		os << vec[i] << " ";
 	return os;
+}
+
+template<typename T>
+T Vector<T>::norm_1() const
+{
+	T result = static_cast<T>(0);
+	for (size_t i = 0; i < size; ++i)
+		result += std::abs(data[i]);
+	return result;
+}
+
+template<typename T>
+T Vector<T>::norm() const
+{
+	T result = static_cast<T>(0);
+	for (size_t i = 0; i < size; ++i)
+		result += data[i] * data[i];
+	return std::sqrt(result);
+}
+
+template<typename T>
+T Vector<T>::norm_inf() const
+{
+	T result = static_cast<T>(0);
+	for (size_t i = 0; i < size; ++i)
+	{
+		T abs_val = std::abs(data[i]);
+		if (abs_val > result)
+			result = abs_val;
+	}
+	return result;
 }

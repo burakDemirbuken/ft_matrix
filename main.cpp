@@ -350,6 +350,101 @@ void test_ex06()
     }
 }
 
+void test_ex07()
+{
+    std::cout << "\n--- Exercise 07: Matrix Multiplication Tests ---" << std::endl;
+    
+    // Matrix-Vector Multiplication
+    std::cout << "\n[ Matrix-Vector Multiplication ]" << std::endl;
+    Matrix<float> u1({
+        {1.0f, 0.0f},
+        {0.0f, 1.0f}
+    });
+    Vector<float> v1({4.0f, 2.0f});
+    std::cout << "u=[[1, 0], [0, 1]], v=[4, 2] ->\n" << u1.mul_vec(v1) << std::endl;
+    // Expected: [4, 2]
+
+    Matrix<float> u2({
+        {2.0f, 0.0f},
+        {0.0f, 2.0f}
+    });
+    Vector<float> v2({4.0f, 2.0f});
+    std::cout << "u=[[2, 0], [0, 2]], v=[4, 2] ->\n" << u2.mul_vec(v2) << std::endl;
+    // Expected: [8, 4]
+
+    Matrix<float> u3({
+        {2.0f, -2.0f},
+        {-2.0f, 2.0f}
+    });
+    Vector<float> v3({4.0f, 2.0f});
+    std::cout << "u=[[2, -2], [-2, 2]], v=[4, 2] ->\n" << u3.mul_vec(v3) << std::endl;
+    // Expected: [4, -4]
+
+    // Exception Test
+    try {
+        Matrix<float> err_m({
+            {1.0f, 2.0f}
+        });
+        Vector<float> err_v({1.0f, 2.0f, 3.0f});
+        std::cout << "Matrix-Vector Exception Test: ";
+        err_m.mul_vec(err_v);
+        std::cout << "FAIL (No exception thrown)" << std::endl;
+    } catch (const std::exception& e) {
+        std::cout << "SUCCESS (Exception caught) -> " << e.what() << std::endl;
+    }
+
+    // Matrix-Matrix Multiplication
+    std::cout << "\n[ Matrix-Matrix Multiplication ]" << std::endl;
+    Matrix<float> m1({
+        {1.0f, 0.0f},
+        {0.0f, 1.0f}
+    });
+    Matrix<float> m2({
+        {1.0f, 0.0f},
+        {0.0f, 1.0f}
+    });
+    std::cout << "m1=[[1, 0], [0, 1]], m2=[[1, 0], [0, 1]] ->\n" << m1.mul_mat(m2) << std::endl;
+    // Expected: [[1, 0], [0, 1]]
+
+    Matrix<float> m3({
+        {1.0f, 0.0f},
+        {0.0f, 1.0f}
+    });
+    Matrix<float> m4({
+        {2.0f, 1.0f},
+        {4.0f, 2.0f}
+    });
+    std::cout << "m1=[[1, 0], [0, 1]], m2=[[2, 1], [4, 2]] ->\n" << m3.mul_mat(m4) << std::endl;
+    // Expected: [[2, 1], [4, 2]]
+
+    Matrix<float> m5({
+        {3.0f, -5.0f},
+        {6.0f, 8.0f}
+    });
+    Matrix<float> m6({
+        {2.0f, 1.0f},
+        {4.0f, 2.0f}
+    });
+    std::cout << "m1=[[3, -5], [6, 8]], m2=[[2, 1], [4, 2]] ->\n" << m5.mul_mat(m6) << std::endl;
+    // Expected: [[-14, -7], [44, 22]]
+
+    // Exception Test
+    try {
+        Matrix<float> err_m1({
+            {1.0f, 2.0f, 3.0f}
+        });
+        Matrix<float> err_m2({
+            {1.0f, 2.0f},
+            {3.0f, 4.0f}
+        });
+        std::cout << "Matrix-Matrix Exception Test: ";
+        err_m1.mul_mat(err_m2);
+        std::cout << "FAIL (No exception thrown)" << std::endl;
+    } catch (const std::exception& e) {
+        std::cout << "SUCCESS (Exception caught) -> " << e.what() << std::endl;
+    }
+}
+
 int main()
 {
 	test_ex00();
@@ -359,5 +454,6 @@ int main()
 	test_ex04();
 	test_ex05();
 	test_ex06();
+	test_ex07();
 	return 0;
 }

@@ -156,3 +156,59 @@ std::ostream& operator<<(std::ostream& os, const Matrix<T>& mat)
 	}
 	return os;
 }
+
+template<typename T>
+Vector<T> Matrix<T>::mul_vec(const Vector<T>& vec) const
+{
+	if (cols != vec.getSize())
+		throw std::invalid_argument("Matrix columns must match vector size for multiplication.");
+	Vector<T> result(rows);
+	for (size_t i = 0; i < rows; ++i)
+	{
+		T sum = 0;
+		for (size_t j = 0; j < cols; ++j)
+			sum += getData(i, j) * vec[j];
+		result[i] = sum;
+	}
+	return result;
+}
+
+template<typename T>
+Matrix<T> Matrix<T>::mul_mat(const Matrix<T>& other) const
+{
+	if (cols != other.rows)
+		throw std::invalid_argument("Matrix A columns must match Matrix B rows for multiplication.");
+	Matrix<T> result(rows, other.cols);
+	for (size_t i = 0; i < rows; ++i)
+	{
+		for (size_t j = 0; j < other.cols; ++j)
+		{
+			T sum = 0;
+			for (size_t k = 0; k < cols; ++k)
+				sum += getData(i, k) * other.getData(k, j);
+			result.putData(i, j, sum);
+		}
+	}
+	return result;
+}
+
+template<typename T>
+T	Matrix<T>::trace() const
+{
+	if (rows != cols)
+		throw std::invalid_argument("Trace is only defined for square matrices.");
+	T sum = 0;
+	for (size_t i = 0; i < rows; ++i)
+		sum += getData(i, i);
+	return sum;
+}
+
+template<typename T>
+Matrix<T> Matrix<T>::transpose() const
+{
+	Matrix<T> result(cols, rows);
+	for (size_t i = 0; i < rows; ++i)
+		for (size_t j = 0; j < cols; ++j)
+			result.putData(j, i, getData(i, j));
+	return result;
+}

@@ -43,6 +43,13 @@ class Matrix
 
 		Matrix<T> operator=(const Matrix<T>& other);
 
+		Vector<T> mul_vec(const Vector<T>& vec) const;
+		Matrix<T> mul_mat(const Matrix<T>& other) const;
+
+		T	trace() const;
+
+		Matrix<T>	transpose() const;
+
 };
 
 template<typename T>
